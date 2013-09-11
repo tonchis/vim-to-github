@@ -42,12 +42,20 @@ function! s:open_browser(url)
   endif
 endfunction
 
-function! ToGithub()
+function! ToGithub(count, line1, line2)
   let base_url = 'https://github.com'
   let repo = substitute(system('git remote -v | grep -E "origin.*\(fetch\)" | sed -E "s/.*com:(.*).git.*/\\1/"'), "\n", "", "")
   let branch = substitute(system('git symbolic-ref --short HEAD'), "\n", "", "")
   let file_path = bufname('%')
-  let url = base_url . '/' . repo . '/blob/' . branch . '/' . file_path . '#L' . line('.')
-  return s:open_browser(url)
+  let url = base_url . '/' . repo . '/blob/' . branch . '/' . file_path
+
+  if a:count == -1
+    let line = '#L' . line('.')
+  else
+    let line = '#L' . a:line1 . '-L' . a:line2
+  endif
+
+  return s:open_browser(url . line)
 endfunction
 
+command! -range ToGithub :call ToGithub(<count>, <line1>, <line2>)
