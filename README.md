@@ -15,6 +15,20 @@ Visual mode is supported!
 :'<,'>ToGithub
 ```
 
+`ToGithub` makes up the url from the origin fetch url in your `$ git remote -v`.
+
+If you need to hit another username do:
+
+```
+:ToGithub username
+```
+
+It's the same to replace the repo name:
+
+```
+:ToGithub username repo
+```
+
 Installation
 ------------
 
