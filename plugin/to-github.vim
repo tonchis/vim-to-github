@@ -52,15 +52,16 @@ function! ToGithub(count, line1, line2, ...)
   let github_url = 'https://github.com'
   let get_remote = 'git remote -v | grep -E "origin.*\(fetch\)"'
   let get_username = 'sed -E "s/.*com[:\/](.*)\/.*/\\1/"'
-  let get_repo = 'sed -E "s/.*com[:\/].*\/(.*).git.*/\\1/"'
+  let get_repo = 'sed -E "s/.*com[:\/].*\/(.*).*/\\1/" | cut -d " " -f 1'
+  let optional_ext = 'sed -E "s/\.git//"'
 
   " Get the username and repo.
   if len(a:000) == 0
     let username = s:run(get_remote, get_username)
-    let repo = s:run(get_remote, get_repo)
+    let repo = s:run(get_remote, get_repo, optional_ext)
   elseif len(a:000) == 1
     let username = a:000[0]
-    let repo = s:run(get_remote, get_repo)
+    let repo = s:run(get_remote, get_repo, optional_ext)
   elseif len(a:000) == 2
     let username = a:000[0]
     let repo = a:000[1]
