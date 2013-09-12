@@ -42,14 +42,25 @@ function! s:open_browser(url)
   endif
 endfunction
 
+function! s:run(...)
+    let command = join(a:000, ' | ')
+
+    return substitute(system(command), "\n", '', '')
+endfunction
+
 function! ToGithub(count, line1, line2, ...)
-  let base_url = 'https://github.com'
+  let github_url = 'https://github.com'
+  let get_git_remote = 'git remote -v | grep -E "origin.*\(fetch\)"'
+  let get_username = 'sed -E "s/.*com[:\/](.*)\/.*/\\1/"'
+  let get_repo = 'sed -E "s/.*com[:\/].*\/(.*).git.*/\\1/"'
+
+  " Get the username and repo.
   if len(a:000) == 0
-    let username = substitute(system('git remote -v | grep -E "origin.*\(fetch\)" | sed -E "s/.*com[:\/](.*)\/.*/\\1/"'), "\n", '', '')
-    let repo = substitute(system('git remote -v | grep -E "origin.*\(fetch\)" | sed -E "s/.*com[:\/].*\/(.*).git.*/\\1/"'), "\n", '', '')
+    let username = s:run(get_git_remote, get_username)
+    let repo = s:run(get_git_remote, get_repo)
   elseif len(a:000) == 1
     let username = a:000[0]
-    let repo = substitute(system('git remote -v | grep -E "origin.*\(fetch\)" | sed -E "s/.*com[:\/].*\/(.*).git.*/\\1/"'), "\n", '', '')
+    let repo = s:run(get_git_remote, get_repo)
   elseif len(a:000) == 2
     let username = a:000[0]
     let repo = a:000[1]
@@ -57,10 +68,12 @@ function! ToGithub(count, line1, line2, ...)
     return 'Too many arguments'
   endif
 
-  let branch = substitute(system('git symbolic-ref --short HEAD'), "\n", '', '')
+  " Get the branch and path, and form the complete url.
+  let branch = s:run('git symbolic-ref --short HEAD')
   let file_path = bufname('%')
-  let url = base_url . '/' . username . '/' . repo . '/blob/' . branch . '/' . file_path
+  let url = join([github_url, username, repo, branch, file_path], '/')
 
+  " Finally set the line numbers if necessary.
   if a:count == -1
     let line = '#L' . line('.')
   else
