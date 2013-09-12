@@ -42,12 +42,24 @@ function! s:open_browser(url)
   endif
 endfunction
 
-function! ToGithub(count, line1, line2)
+function! ToGithub(count, line1, line2, ...)
   let base_url = 'https://github.com'
-  let repo = substitute(system('git remote -v | grep -E "origin.*\(fetch\)" | sed -E "s/.*com:(.*).git.*/\\1/"'), "\n", "", "")
-  let branch = substitute(system('git symbolic-ref --short HEAD'), "\n", "", "")
+  if len(a:000) == 0
+    let username = substitute(system('git remote -v | grep -E "origin.*\(fetch\)" | sed -E "s/.*com[:\/](.*)\/.*/\\1/"'), "\n", '', '')
+    let repo = substitute(system('git remote -v | grep -E "origin.*\(fetch\)" | sed -E "s/.*com[:\/].*\/(.*).git.*/\\1/"'), "\n", '', '')
+  elseif len(a:000) == 1
+    let username = a:000[0]
+    let repo = substitute(system('git remote -v | grep -E "origin.*\(fetch\)" | sed -E "s/.*com[:\/].*\/(.*).git.*/\\1/"'), "\n", '', '')
+  elseif len(a:000) == 2
+    let username = a:000[0]
+    let repo = a:000[1]
+  else
+    return 'Too many arguments'
+  endif
+
+  let branch = substitute(system('git symbolic-ref --short HEAD'), "\n", '', '')
   let file_path = bufname('%')
-  let url = base_url . '/' . repo . '/blob/' . branch . '/' . file_path
+  let url = base_url . '/' . username . '/' . repo . '/blob/' . branch . '/' . file_path
 
   if a:count == -1
     let line = '#L' . line('.')
@@ -58,4 +70,4 @@ function! ToGithub(count, line1, line2)
   return s:open_browser(url . line)
 endfunction
 
-command! -range ToGithub :call ToGithub(<count>, <line1>, <line2>)
+command! -nargs=* -range ToGithub :call ToGithub(<count>, <line1>, <line2>, <f-args>)
