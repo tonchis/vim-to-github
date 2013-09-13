@@ -43,9 +43,8 @@ function! s:open_browser(url)
 endfunction
 
 function! s:run(...)
-    let command = join(a:000, ' | ')
-
-    return substitute(system(command), "\n", '', '')
+  let command = join(a:000, ' | ')
+  return substitute(system(command), "\n", '', '')
 endfunction
 
 function! ToGithub(count, line1, line2, ...)
