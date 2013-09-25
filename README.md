@@ -29,6 +29,13 @@ It's the same to replace the repo name:
 :ToGithub username repo
 ```
 
+You can also set a global option to copy the url in the clipboard instead of opening the browser
+
+```
+let g:to_github_clip_command = 'pbcopy'
+let g:to_github_clipboard = 1
+```
+
 Installation
 ------------
 
