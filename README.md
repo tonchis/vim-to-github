@@ -1,4 +1,4 @@
-to-github-vim
+vim-to-github
 =============
 
 Taking you from Vim to GitHub.
@@ -43,7 +43,7 @@ Installation
 
 ```bash
 $ cd ~/.vim/bundle
-$ git clone https://github.com/tonchis/to-github-vim.git
+$ git clone https://github.com/tonchis/vim-to-github.git
 ```
 
 Or just good old copy and paste.
@@ -52,5 +52,4 @@ Thanks
 ------
 
 * To [@kandalf](https://github.com/kandalf/) for the initiative!
-* To [@mattn](https://github.com/mattn/) for the Gist plugin! I took inspiration (and code) from him.
-
+* To [@mattn](https://github.com/mattn/) for the [Gist](https://github.com/mattn/gist-vim) plugin! I took inspiration (and code) from him.
