@@ -60,7 +60,7 @@ endfunction
 
 function! ToGithub(count, line1, line2, ...)
   let github_url = 'https://github.com'
-  let get_remote = 'git remote -v | grep -E "origin.*\(fetch\)"'
+  let get_remote = 'git remote -v | grep -E "github\.com.*\(fetch\)"'
   let get_username = 'sed -E "s/.*com[:\/](.*)\/.*/\\1/"'
   let get_repo = 'sed -E "s/.*com[:\/].*\/(.*).*/\\1/" | cut -d " " -f 1'
   let optional_ext = 'sed -E "s/\.git//"'
