@@ -50,7 +50,7 @@ endfunction
 
 function! s:copy_to_clipboard(url)
   if exists('g:to_github_clip_command')
-    call system(g:gist_clip_command, a:url)
+    call system(g:to_github_clip_command, a:url)
   elseif has('unix') && !has('xterm_clipboard')
     let @" = a:url
   else
