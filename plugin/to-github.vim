@@ -81,7 +81,9 @@ function! ToGithub(count, line1, line2, ...)
 
   " Get the branch and path, and form the complete url.
   let branch = s:run('git symbolic-ref --short HEAD')
+  let repo_root = s:run('git rev-parse --show-toplevel')
   let file_path = bufname('%')
+  let file_path = substitute(file_path, repo_root . '/', '', 'e')
   let url = join([github_url, username, repo, 'blob', branch, file_path], '/')
 
   " Finally set the line numbers if necessary.
