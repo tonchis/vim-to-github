@@ -79,8 +79,8 @@ function! ToGithub(count, line1, line2, ...)
     return 'Too many arguments'
   endif
 
-  " Get the branch and path, and form the complete url.
-  let branch = s:run('git symbolic-ref --short HEAD')
+  " Get the commit and path, and form the complete url.
+  let branch = s:run('git show-ref --hash HEAD')
   let repo_root = s:run('git rev-parse --show-toplevel')
   let file_path = bufname('%')
   let file_path = substitute(file_path, repo_root . '/', '', 'e')
