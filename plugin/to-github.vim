@@ -4,21 +4,21 @@
 "
 
 function! s:get_browser_command()
-  let gist_browser_command = get(g:, 'gist_browser_command', '')
-  if gist_browser_command == ''
+  let to_github_browser_command = get(g:, 'to_github_browser_command', '')
+  if to_github_browser_command == ''
     if has('win32') || has('win64')
-      let gist_browser_command = '!start rundll32 url.dll,FileProtocolHandler %URL%'
+      let to_github_browser_command = '!start rundll32 url.dll,FileProtocolHandler %URL%'
     elseif has('mac') || has('macunix') || has('gui_macvim') || system('uname') =~? '^darwin'
-      let gist_browser_command = 'open %URL%'
+      let to_github_browser_command = 'open %URL%'
     elseif executable('xdg-open')
-      let gist_browser_command = 'xdg-open %URL%'
+      let to_github_browser_command = 'xdg-open %URL%'
     elseif executable('firefox')
-      let gist_browser_command = 'firefox %URL% &'
+      let to_github_browser_command = 'firefox %URL% &'
     else
-      let gist_browser_command = ''
+      let to_github_browser_command = ''
     endif
   endif
-  return gist_browser_command
+  return to_github_browser_command
 endfunction
 
 function! s:open_browser(url)
