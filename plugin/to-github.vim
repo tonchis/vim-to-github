@@ -80,7 +80,7 @@ function! ToGithub(count, line1, line2, ...)
   endif
 
   " Get the commit and path, and form the complete url.
-  let commit = s:run('git show-ref --hash HEAD')
+  let commit = s:run('git rev-parse HEAD')
   let repo_root = s:run('git rev-parse --show-toplevel')
   let file_path = bufname('%')
   let file_path = substitute(file_path, repo_root . '/', '', 'e')
