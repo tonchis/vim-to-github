@@ -1,5 +1,4 @@
-vim-to-github
-=============
+# vim-to-github
 
 Taking you from Vim to GitHub.
 
@@ -36,8 +35,7 @@ let g:to_github_clip_command = 'pbcopy'
 let g:to_github_clipboard = 1
 ```
 
-Installation
-------------
+## Installation
 
 [Pathogen](https://github.com/tpope/vim-pathogen) will do
 
@@ -48,8 +46,11 @@ $ git clone https://github.com/tonchis/vim-to-github.git
 
 Or just good old copy and paste.
 
-Thanks
-------
+## Caveats
+
+`:ToGithub` will give you a link to a specific commit. If you work and commit but don't push to GitHub, you will see a 404.
+
+## Thanks
 
 * To [@kandalf](https://github.com/kandalf/) for the initiative!
 * To [@mattn](https://github.com/mattn/) for the [Gist](https://github.com/mattn/gist-vim) plugin! I took inspiration (and code) from him.
