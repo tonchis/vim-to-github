@@ -59,9 +59,7 @@ function! s:copy_to_clipboard(url)
 endfunction
 
 function! ToGithub(count, line1, line2, ...)
-  let repo_root = s:run('git rev-parse --show-toplevel')
   let file_path = bufname('%')
-  let file_path = substitute(file_path, repo_root . '/', '', 'e')
   let dvcs_link = 'dvcs-link ' . file_path . ' ' . a:line1 . ' ' . a:line2
   let url = s:run(dvcs_link)
 
