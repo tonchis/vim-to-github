@@ -14,19 +14,7 @@ Visual mode is supported!
 :'<,'>ToGithub
 ```
 
-`ToGithub` makes up the url from the origin fetch url in your `$ git remote -v`.
-
-If you need to hit another username do:
-
-```
-:ToGithub username
-```
-
-It's the same to replace the repo name:
-
-```
-:ToGithub username repo
-```
+`ToGithub` makes up the url using [`dvcs-link`](https://gitlab.com/tonchis/dvcs-link)
 
 You can also set a global option to copy the url in the clipboard instead of opening the browser
 
@@ -36,6 +24,8 @@ let g:to_github_clipboard = 1
 ```
 
 ## Installation
+
+Requires [`dvcs-link`](https://gitlab.com/tonchis/dvcs-link) to be installed.
 
 [Pathogen](https://github.com/tpope/vim-pathogen) will do
 
