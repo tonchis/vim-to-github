@@ -59,44 +59,16 @@ function! s:copy_to_clipboard(url)
 endfunction
 
 function! ToGithub(count, line1, line2, ...)
-  let github_url = 'https://github.com'
-  let get_remote = 'git remote -v | grep -E "github\.com.*\(fetch\)" | head -n 1'
-  let get_username = 'sed -E "s/.*com[:\/](.*)\/.*/\\1/"'
-  let get_repo = 'sed -E "s/.*com[:\/].*\/(.*).*/\\1/" | cut -d " " -f 1'
-  let optional_ext = 'sed -E "s/\.git//"'
-
-  " Get the username and repo.
-  if len(a:000) == 0
-    let username = s:run(get_remote, get_username)
-    let repo = s:run(get_remote, get_repo, optional_ext)
-  elseif len(a:000) == 1
-    let username = a:000[0]
-    let repo = s:run(get_remote, get_repo, optional_ext)
-  elseif len(a:000) == 2
-    let username = a:000[0]
-    let repo = a:000[1]
-  else
-    return 'Too many arguments'
-  endif
-
-  " Get the commit and path, and form the complete url.
-  let commit = s:run('git rev-parse HEAD')
   let repo_root = s:run('git rev-parse --show-toplevel')
   let file_path = bufname('%')
   let file_path = substitute(file_path, repo_root . '/', '', 'e')
-  let url = join([github_url, username, repo, 'blob', commit, file_path], '/')
-
-  " Finally set the line numbers if necessary.
-  if a:count == -1
-    let line = '#L' . line('.')
-  else
-    let line = '#L' . a:line1 . '-L' . a:line2
-  endif
+  let dvcs_link = 'dvcs-link ' . file_path . ' ' . a:line1 . ' ' . a:line2
+  let url = s:run(dvcs_link)
 
   if get(g:, 'to_github_clipboard', 0)
-    return s:copy_to_clipboard(url . line)
+    return s:copy_to_clipboard(url)
   else
-    return s:open_browser(url . line)
+    return s:open_browser(url)
   endif
 endfunction
 
