@@ -88,9 +88,9 @@ function! ToGithub(count, line1, line2, ...)
 
   " Finally set the line numbers if necessary.
   if a:count == -1
-    let line = '#L' . line('.')
+    let line = '?plain=1#L' . line('.')
   else
-    let line = '#L' . a:line1 . '-L' . a:line2
+    let line = '?plain=1#L' . a:line1 . '-L' . a:line2
   endif
 
   if get(g:, 'to_github_clipboard', 0)
