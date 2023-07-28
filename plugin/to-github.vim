@@ -58,7 +58,7 @@ function! s:copy_to_clipboard(url)
   endif
 endfunction
 
-function! ToGithub(count, line1, line2, ...)
+function! ToGithub(route, count, line1, line2, ...)
   let github_url = 'https://github.com'
   let get_remote = 'git remote -v | grep -E "github\.com.*\(fetch\)" | head -n 1'
   let get_username = 'sed -E "s/.*com[:\/](.*)\/.*/\\1/"'
@@ -84,7 +84,7 @@ function! ToGithub(count, line1, line2, ...)
   let repo_root = s:run('git rev-parse --show-toplevel')
   let file_path = expand('%:p')
   let file_path = substitute(file_path, repo_root . '/', '', 'e')
-  let url = join([github_url, username, repo, 'blob', commit, file_path], '/')
+  let url = join([github_url, username, repo, a:route, commit, file_path], '/')
 
   " Finally set the line numbers if necessary.
   if a:count == -1
@@ -100,4 +100,5 @@ function! ToGithub(count, line1, line2, ...)
   endif
 endfunction
 
-command! -nargs=* -range ToGithub :call ToGithub(<count>, <line1>, <line2>, <f-args>)
+command! -nargs=* -range ToGithub :call ToGithub('blob', <count>, <line1>, <line2>, <f-args>)
+command! -nargs=* -range ToGithubBlame :call ToGithub('blame', <count>, <line1>, <line2>, <f-args>)
