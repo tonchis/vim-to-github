@@ -60,7 +60,7 @@ endfunction
 
 function! ToGithub(count, line1, line2, ...)
   let get_remote = 'git remote -v | grep -E "^origin	+.*\(fetch\)$" | head -n 1' " Uses literal tab stop in regex.
-  let get_host = 'sed "s/^origin\t[^@]\+@\([^:]\+\).*/\1/"'
+  let get_host = 'sed "s,^origin\t\+\([^@]\+@\|https://\)\([^/:]\+\).*,\2,"'
   let get_username = 'sed -E "s/.*com[:\/](.*)\/.*/\\1/"'
   let get_repo = 'sed -E "s/.*com[:\/].*\/(.*).*/\\1/" | cut -d " " -f 1'
   let optional_ext = 'sed -E "s/\.git//"'
