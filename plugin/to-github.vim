@@ -59,11 +59,13 @@ function! s:copy_to_clipboard(url)
 endfunction
 
 function! ToGithub(count, line1, line2, ...)
-  let github_url = 'https://github.com'
-  let get_remote = 'git remote -v | grep -E "github\.com.*\(fetch\)" | head -n 1'
+  let get_remote = 'git remote -v | grep -E "^origin	+.*\(fetch\)$" | head -n 1' " Uses literal tab stop in regex.
+  let get_host = 'sed "s/^origin\t[^@]\+@\([^:]\+\).*/\1/"'
   let get_username = 'sed -E "s/.*com[:\/](.*)\/.*/\\1/"'
   let get_repo = 'sed -E "s/.*com[:\/].*\/(.*).*/\\1/" | cut -d " " -f 1'
   let optional_ext = 'sed -E "s/\.git//"'
+
+  let github_url = 'https://' . s:run(get_remote, get_host)
 
   " Get the username and repo.
   if len(a:000) == 0
